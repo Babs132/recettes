@@ -60,6 +60,17 @@ export default function Navbar({ page, setPage, setSelectedRecipe, role, setRole
             <option value="abonnee">Abonnée</option>
           </select>
         </div>
+        <div style={{ marginLeft: 8 }}>
+          {role === 'admin' ? (
+            <button className="nav-button" onClick={() => { setRole('user'); localStorage.removeItem('role') }}>
+              Se déconnecter
+            </button>
+          ) : (
+            <button className="nav-button" onClick={() => (window.dispatchEvent(new CustomEvent('open-login')))}>
+              Se connecter
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   )

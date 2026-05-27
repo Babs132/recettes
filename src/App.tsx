@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, useEffect } from 'react'
+import LoginModal from './components/LoginModal'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import './App.css'
@@ -58,6 +59,8 @@ export default function App() {
   const [selectedRecipeIndex, setSelectedRecipeIndex] = useState<number | null>(null)
   const [page, setPage] = useState<Page>('home')
   const [role, setRole] = useState<Role>('user')
+  const [loginOpen, setLoginOpen] = useState(false)
+  const [loginError, setLoginError] = useState<string | null>(null)
   const [imageEdit, setImageEdit] = useState('')
   const [form, setForm] = useState({
     titre: '',
@@ -96,6 +99,28 @@ export default function App() {
     setSelectedRecipe((prev) => prev ? { ...prev, image: imageEdit } : null)
   }
 
+  // Simple admin login handler + persistence
+  const ADMIN_PASS = (import.meta.env.VITE_ADMIN_PASSWORD as string) || 'admin123'
+  const handleLogin = (password: string) => {
+    if (password === ADMIN_PASS) {
+      setRole('admin')
+      localStorage.setItem('role', 'admin')
+      setLoginError(null)
+      setLoginOpen(false)
+    } else {
+      setLoginError('Mot de passe incorrect')
+    }
+  }
+
+  useEffect(() => {
+    const stored = localStorage.getItem('role') as Role | null
+    if (stored) setRole(stored)
+
+    const openHandler = () => setLoginOpen(true)
+    window.addEventListener('open-login', openHandler as EventListener)
+    return () => window.removeEventListener('open-login', openHandler as EventListener)
+  }, [])
+
   const handleAddRecipe = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const newRecipe: Recipe = {
@@ -125,6 +150,7 @@ export default function App() {
   return (
     <div className="app">
       <Navbar page={page} setPage={setPage} setSelectedRecipe={setSelectedRecipe} role={role} setRole={setRole} />
+      <LoginModal open={loginOpen} onClose={() => { setLoginOpen(false); setLoginError(null) }} onLogin={handleLogin} error={loginError} />
 
       {/* Hero Banner (Accueil global uniquement) */}
       {!selectedRecipe && page === 'home' && (

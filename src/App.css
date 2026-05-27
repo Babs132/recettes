@@ -645,3 +645,25 @@ body::before {
   .brand { font-size: 1.1rem }
   .hero p { font-size: 0.95rem }
 }
+
+/* Login modal styles */
+.login-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,4,6,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+}
+.login-modal {
+  width: min(420px, 94%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+}
+.login-modal h3 { margin: 0 0 8px; }
+.login-modal p { margin: 0 0 12px; color: var(--text-muted); }
+.login-error { margin-top: 8px; color: #ffb4c6; font-weight: 700 }
