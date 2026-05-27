@@ -1,4 +1,5 @@
 import type { Page, Role } from "../App"
+import { useState } from "react"
 
 interface NavbarProps {
   page: Page
@@ -9,9 +10,11 @@ interface NavbarProps {
 }
 
 export default function Navbar({ page, setPage, setSelectedRecipe, role, setRole }: NavbarProps) {
+  const [open, setOpen] = useState(false)
   const navigateTo = (targetPage: Page) => {
     setPage(targetPage)
     setSelectedRecipe(null)
+    setOpen(false)
   }
 
   return (
@@ -19,17 +22,25 @@ export default function Navbar({ page, setPage, setSelectedRecipe, role, setRole
       <div className="brand" onClick={() => navigateTo('home')} style={{ cursor: 'pointer' }}>
         Babs Kitchen
       </div>
-      <div className="nav-links">
-        <button 
-          type="button" 
-          className={page === 'home' ? 'nav-button active' : 'nav-button'} 
+      <button
+        className="mobile-menu-button"
+        aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+        aria-expanded={open}
+        onClick={() => setOpen(v => !v)}
+      >
+        ☰
+      </button>
+      <div className={"nav-links " + (open ? 'open' : 'closed')}>
+        <button
+          type="button"
+          className={page === 'home' ? 'nav-button active' : 'nav-button'}
           onClick={() => navigateTo('home')}
         >
           Nos Recettes
         </button>
-        <button 
-          type="button" 
-          className={page === 'ajouter' ? 'nav-button active' : 'nav-button'} 
+        <button
+          type="button"
+          className={page === 'ajouter' ? 'nav-button active' : 'nav-button'}
           onClick={() => navigateTo('ajouter')}
         >
           Ajouter une recette

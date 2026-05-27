@@ -610,3 +610,38 @@ body::before {
     padding: 28px;
   }
 }
+
+/* Mobile menu button and responsive nav behavior */
+.mobile-menu-button {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-button { display: inline-flex; align-items: center; justify-content: center; }
+  .nav-links.closed { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .nav-button { width: 100%; text-align: left; padding-left: 14px; }
+  .role-selector { margin-left: 0; padding: 10px 12px; }
+}
+
+/* Hero layout responsive tweaks */
+@media (max-width: 1040px) {
+  .hero { grid-template-columns: 1fr; padding: 40px 20px; }
+  .hero-right { justify-content: center; margin-top: 18px }
+  .hero-plate { width: 300px; height: 300px; }
+}
+
+@media (max-width: 420px) {
+  .app { padding: 18px 12px 36px; }
+  .hero { padding: 28px 12px; border-radius: 22px; }
+  .hero-plate { width: 220px; height: 220px; }
+  .brand { font-size: 1.1rem }
+  .hero p { font-size: 0.95rem }
+}
